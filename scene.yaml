@@ -19,7 +19,7 @@ global:
     # https://mapzen.com/documentation/overview/#developer-accounts-and-api-keys
     sdk_api_key: '3eqm2_bfTNGZ85ar20fVyA'     # set this value to your Mapzen API key
 
-    text_font_family: 'Cairo'
+    text_font_family: 'Orbitron'
 
 # Fonts
 fonts:
@@ -36,7 +36,7 @@ fonts:
 
 scene:
     background:
-        color: [0.985,0.995,1.000]
+        color: [0.000,0.000,0.000]
 
 sources:
     # mapzen:
@@ -75,7 +75,7 @@ layers:
             polygons:
                 style: earth-grid
                 order: global.feature_order
-                color: [0.985,0.995,1.000]
+                color: [0.000,0.000,0.000]
 
     water:
         data: { source: nextzen, layer: water }
@@ -83,7 +83,7 @@ layers:
             polygons:
                 style: water-grid
                 order: global.feature_order
-                color: [0.985,0.995,1.000]
+                color: [0.000,0.000,0.000]
 
         lakes:
             filter:
@@ -109,13 +109,13 @@ layers:
                     - { $zoom: { min: 15 } }
             draw:
                 polygons:
-                    color: [0.985,0.995,1.000]
+                    color: [0.000,0.000,0.000]
 
         other-water-areas:
             filter: { not: { kind: [ocean, lake, water, reservoir] }, $zoom: { min: 11 }, area: { min: 100 } }
             draw:
                 polygons:
-                    color: [0.985,0.995,1.000]
+                    color: [0.000,0.000,0.000]
 
         water-boundary-ocean:
             filter: { boundary: true, kind: ocean, $zoom: { min: 1 } }
@@ -123,8 +123,8 @@ layers:
                 lines:
                     visible: true
                     order: global.feature_order
-                    color: [0.903,0.916,0.930]
-                    width: 2px
+                    color: [0.270,0.270,0.270]
+                    width: 1px
                     join: round
 
         water_boundaries-not-ocean:
@@ -155,8 +155,8 @@ layers:
                 lines:
                     visible: true
                     order: global.feature_order
-                    color: [0.903,0.916,0.930]
-                    width: 2px
+                    color: [0.270,0.270,0.270]
+                    width: 1px
                     join: round
 
             swimming-pools-early:
@@ -170,8 +170,8 @@ layers:
                 draw:
                     lines:
                         visible: true
-                        color: [0.903,0.916,0.930]
-                        width: 2px
+                        color: [0.270,0.270,0.270]
+                        width: 1px
 
     roads:
         data: { source: nextzen, layer: roads }
@@ -212,13 +212,13 @@ layers:
                 lines:
                     cap: round
                     join: round
-                    color: [0.673,0.707,0.740]
+                    color: [0.500,0.500,0.500]
                     width: 1px
             major_road:
                 filter: { kind: major_road }
                 draw:
                     lines:
-                        color: [0.673,0.707,0.740]
+                        color: [0.650,0.650,0.650]
                         width: 0.5px
             ferry:
                 filter: { kind: ferry }
@@ -230,17 +230,17 @@ layers:
             filter: { kind: highway, $zoom: { min: 8 } }
             draw:
                 lines:
-                    color: [[5,[0.644,0.672,0.700]], [12,[0.985,0.995,1.000]]]
+                    color: [[5,[0.650,0.650,0.650]], [12,[0.000,0.000,0.000]]]
                     width: [[5, 0px], [8, 0.1px], [12, 0.1px], [14, 2px], [16, 6.5px], [17, 22m]]
                     outline:
-                        color: [[5,[0.644,0.672,0.700]], [14,[0.644,0.672,0.700]]]
+                        color: [[5,[0.650,0.650,0.650]], [14,[0.650,0.650,0.650]]]
                         width: [[5, 0px], [12, 0.5px], [14, 1px], [16, 2px]]
 
             link:
                 filter: { is_link: true } # on- and off-ramps, etc
                 draw:
                     lines:
-                        color: [0.673,0.707,0.740]
+                        color: [0.650,0.650,0.650]
                         width: [[8, 0px], [13, 0px], [18, 2px]]
                         outline:
                             width: 0px
@@ -254,17 +254,17 @@ layers:
                     filter: {is_tunnel: true, $zoom: {min: 13} }
                     draw:
                         lines:
-                            color: [0.985,0.995,1.000]
+                            color: [0.000,0.000,0.000]
                             outline:
-                                color: [0.673,0.707,0.740]
+                                color: [0.250,0.250,0.250]
 
             tunnel:
                 filter: {is_tunnel: true, $zoom: {min: 13} }
                 draw:
                     lines:
-                        color: [0.985,0.995,1.000]
+                        color: [0.000,0.000,0.000]
                         outline:
-                            color: [0.883,0.896,0.910]
+                            color: [0.250,0.250,0.250]
 
             highway_bridge:
                 filter: {is_bridge: true}
@@ -278,7 +278,7 @@ layers:
         #     filter: { kind: major_road, $zoom: { min: 13 } }
         #     draw:
         #         lines:
-        #             color: [0.616,0.643,0.670]
+        #             color: [0.650,0.650,0.650]
         #             width: [[13,0px], [18,2px]]
 
         major_road:
@@ -286,19 +286,19 @@ layers:
             # default style
             draw:
                 lines:
-                    color: [[13, [0.616,0.643,0.670]], [16, [0.985,0.995,1.000]]]
+                    color: [[13, [0.650,0.650,0.650]], [16, [0.000,0.000,0.000]]]
                     width: [[13, 0.25px], [16,0.1px], [18, 4px]]
                     outline:
-                        color: [0.616,0.643,0.670]
+                        color: [0.650,0.650,0.650]
                         width: [[13, 0px], [15, 0.1px], [17, 1px]]
             trunk_primary:
                 filter: { kind_detail: [trunk, primary] }
                 draw:
                     lines:
-                        color: [[13, [0.616,0.643,0.670]], [14, [0.985,0.995,1.000]]]
+                        color: [[13, [0.650,0.650,0.650]], [14, [0.000,0.000,0.000]]]
                         width: [[13, 0.25px], [14, 0.1px], [15, 2px], [17, 8px], [18, 10m]]
                         outline:
-                            color: [0.616,0.643,0.670]
+                            color: [0.650,0.650,0.650]
                             width: [[13, 0px], [16, 1px]]
                 early:
                     filter: { $zoom: { max: 16 } }
@@ -317,10 +317,10 @@ layers:
                     filter: { ref: true }
                     draw:
                         lines:
-                            color: [[11,[0.616,0.643,0.670]], [12, [0.985,0.995,1.000]]]
+                            color: [[11,[0.650,0.650,0.650]], [12, [0.000,0.000,0.000]]]
                             width: [[11, 0.25px], [12, 0.1px], [15, 1.25px], [16, 2px], [17, 8px], [18, 10m]]
                             outline:
-                                color: [0.616,0.643,0.670]
+                                color: [0.650,0.650,0.650]
                                 width: [[11, 0px], [14, 0.5px], [17, 1px]]
                     early:
                         filter: { $zoom: { max: 16 } }
@@ -333,30 +333,30 @@ layers:
                         filter: { is_tunnel: true, $zoom: { min: 13 } }
                         draw:
                             lines:
-                                color: [[11,[0.883,0.896,0.910]], [12, [0.985,0.995,1.000]]]
+                                color: [[11,[0.250,0.250,0.250]], [12, [0.000,0.000,0.000]]]
                                 outline:
-                                    color: [0.883,0.896,0.910]
+                                    color: [0.250,0.250,0.250]
             link:
                 filter: { is_link: true } # on- and off-ramps, etc
                 draw:
                     lines:
-                        color: [[11,[0.616,0.643,0.670]], [12, [0.985,0.995,1.000]]]
+                        color: [[11,[0.650,0.650,0.650]], [12, [0.000,0.000,0.000]]]
                         width: [[11, 0.25px], [12, 0.1px], [15, 1.25px], [18, 8px]]
                         outline:
-                            color: [0.616,0.643,0.670]
+                            color: [0.650,0.650,0.650]
                             width: [[11, 0px], [14, 0.5px], [17, 1px]]
             tunnel:
                 filter: { is_tunnel: true, $zoom: { min: 13 } }
                 draw:
                     lines:
-                        color: [[13, [0.616,0.643,0.670]], [16, [0.985,0.995,1.000]]]
+                        color: [[13, [0.250,0.250,0.250]], [16, [0.000,0.000,0.000]]]
                         outline:
-                            color: [0.883,0.896,0.910]
+                            color: [0.250,0.250,0.250]
             secondary:
                 filter: { kind_detail: secondary }
                 draw:
                     lines:
-                        color: [0.616,0.643,0.670]
+                        color: [0.650,0.650,0.650]
                         width: [[13,0px], [15,1px], [18,1.5px]]
                         outline:
                             width: 0px
@@ -371,7 +371,7 @@ layers:
                     filter: { ref: true, $zoom: { min: 12 } }
                     draw:
                         lines:
-                            color: [0.616,0.643,0.670]
+                            color: [0.650,0.650,0.650]
                     early:
                         filter: { $zoom: { max: 15 } }
                         draw:
@@ -383,14 +383,14 @@ layers:
                         filter: {is_tunnel: true, $zoom: { min: 13 } }
                         draw:
                             lines:
-                                color: [0.883,0.896,0.910]
+                                color: [0.250,0.250,0.250]
 
 
             tertiary:
                 filter: { kind_detail: [tertiary, tertiary_link] }
                 draw:
                     lines:
-                        color: [0.616,0.643,0.670]
+                        color: [0.650,0.650,0.650]
                         width: [[13,0px], [15,1px], [18,1.5px]]
                         outline:
                             width: 0px
@@ -405,7 +405,7 @@ layers:
                     filter: { ref: true, $zoom: { min: 12 } }
                     draw:
                         lines:
-                            color: [0.616,0.643,0.670]
+                            color: [0.650,0.650,0.650]
                     early:
                         filter: { $zoom: { max: 15 } }
                         draw:
@@ -417,19 +417,19 @@ layers:
                         filter: { is_tunnel: true, $zoom: { min: 13 } }
                         draw:
                             lines:
-                                color: [0.883,0.896,0.910]
+                                color: [0.250,0.250,0.250]
                 link:
                     filter: { is_link: true } # on- and off-ramps, etc
                     draw:
                         lines:
-                            color: [0.616,0.643,0.670]
+                            color: [0.650,0.650,0.650]
 
 
         minor_road:
             filter: { kind: minor_road, not: { kind_detail: service }, $zoom: { min: 16 } }
             draw:
                 lines:
-                    color: [0.616,0.643,0.670]
+                    color: [0.650,0.650,0.650]
                     width: [[16,0px], [18,1px]]
 
     landuse:
@@ -452,10 +452,10 @@ layers:
             draw:
                 polygons:
                     style: green-grid
-                    color: [0.985,0.995,1.000]
+                    color: [0.000,0.000,0.000]
                     visible: true
                 lines:
-                    color: [0.825,0.837,0.850]
+                    color: [0.150,0.150,0.150]
                     width: 2px
                     visible: true
             us_national_park:
@@ -467,10 +467,10 @@ layers:
                 draw:
                     polygons:
                         style: green-grid
-                        color: [0.985,0.995,1.000]
+                        color: [0.000,0.000,0.000]
                         visible: true
                     lines:
-                        color: [0.825,0.837,0.850]
+                        color: [0.150,0.150,0.150]
                         width: 2px
                         visible: true
 
@@ -483,10 +483,10 @@ layers:
             draw:
                 polygons:
                     style: green-grid
-                    color: [0.985,0.995,1.000]
+                    color: [0.000,0.000,0.000]
                     visible: true
                 lines:
-                    color: [0.825,0.837,0.850]
+                    color: [0.300,0.300,0.300]
                     width: 2px
                     visible: true
 
@@ -500,10 +500,10 @@ layers:
             draw:
                 polygons:
                     style: green-grid
-                    color: [0.985,0.995,1.000]
+                    color: [0.000,0.000,0.000]
                     visible: true
                 lines:
-                    color: [0.825,0.837,0.850]
+                    color: [0.250,0.250,0.250]
                     width: 2px
                     visible: true
 
@@ -512,10 +512,10 @@ layers:
             draw:
                 polygons:
                     style: green-grid
-                    color: [0.985,0.995,1.000]
+                    color: [0.000,0.000,0.000]
                     visible: true
                 lines:
-                    color: [0.825,0.837,0.850]
+                    color: [0.250,0.250,0.250]
                     width: 2px
                     visible: true
 
@@ -532,10 +532,10 @@ layers:
                 polygons:
                     # style: polygons-diagonal-grid
                     style: green-grid
-                    color: [0.985,0.995,1.000]
+                    color: [0.000,0.000,0.000]
                     visible: true
                 lines:
-                    color: [0.825,0.837,0.850]
+                    color: [0.250,0.250,0.250]
                     width: 2px
                     visible: true
             national_park:
@@ -557,7 +557,7 @@ layers:
             polygons:
                 visible: false
                 order: 329
-                color: [0.985,0.995,1.000]
+                color: [0.000,0.000,0.000]
             lines:
                 visible: false
                 order: 329
@@ -579,7 +579,7 @@ layers:
                     style: building-grid
                 lines:
                     visible: true
-                    color: [0.648,0.684,0.720]
+                    color: [0.480,0.480,0.480]
                     width: [[12,0.5px], [14,2px]]
 
     places:
@@ -592,7 +592,7 @@ layers:
                 buffer: 3px
                 font:
                     family: global.text_font_family
-                    fill: [0.290,0.335,0.350]
+                    fill: [0.800,0.800,0.800]
             # END NOTE
 
         populated-places:
@@ -604,7 +604,7 @@ layers:
                     buffer: 42px
                     font:
                         size: [[5,9px],[8,10px],[12,11px]]
-                        stroke: { color: [0.985,0.995,1.000], width: 5px }
+                        stroke: { color: [0.000,0.000,0.000], width: 6px }
 
             # _text_early:
             #     filter: { $zoom: { max: 11 } }
@@ -841,7 +841,7 @@ styles:
                         vec2 st = TileCoords() * 400. * res;
                         float pct = 0.0;
                         float press = 0.9 + (1.0 - fract(u_map_position.z)) * 0.1;
-                        if (grid(st, 0.1, press)) { pct += 0.21; }
+                        if (grid(st, 0.1, press)) { pct += 0.3; }
                         return pct;
                     }
                     float TileGrid() {
@@ -877,7 +877,7 @@ styles:
         shaders:
             blocks:
                 filter: |
-                    color.rgb = mix(color.rgb, vec3(0.684,0.702,0.720), TileGrid());
+                    color.rgb = mix(color.rgb, vec3(0.470,0.470,0.470), TileGrid());
 
     water-grid:
         base: polygons
@@ -885,7 +885,7 @@ styles:
         shaders:
             blocks:
                 filter: |
-                    color.rgb = mix(color.rgb, vec3(0.921,0.936,0.950), TileGrid());
+                    color.rgb = mix(color.rgb, vec3(0.190,0.190,0.190), TileGrid());
 
     green-grid:
         base: polygons
@@ -893,7 +893,7 @@ styles:
         shaders:
             blocks:
                 filter: |
-                    color.rgb = mix(color.rgb, vec3(0.161,0.207,0.230), TileGrid());
+                    color.rgb = mix(color.rgb, vec3(0.920,0.920,0.920), TileGrid());
 
     park-grid:
         base: polygons
@@ -909,7 +909,7 @@ styles:
         shaders:
             blocks:
                 filter: |
-                    color.rgb = mix(color.rgb, vec3(0.795,0.808,0.820), TileGrid());
+                    color.rgb = mix(color.rgb, vec3(0.400,0.400,0.400), TileGrid());
 
     polygons-diagonal-grid:
         doc:
