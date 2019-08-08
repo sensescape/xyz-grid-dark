@@ -550,6 +550,15 @@ layers:
                         style: green-grid
                         visible: true
 
+        golf_course:
+            filter:
+                kind: golf_course
+            draw:
+                polygons:
+                    style: lines-on-grid
+                    color: [0.000,0.000,0.000]
+                    visible: true
+
     buildings:
         data: { source: nextzen, layer: buildings }
         filter:
@@ -969,6 +978,53 @@ styles:
                                 // change this vec2 to control circle offset
                                 vec2(.2, .2) -
                                 tile(getTileCoords() * DOTS_SCALE, 2.)
+                            )
+                        )
+                    );
+                    color.rgb = mix(color.rgb, u_shape_color, TileGrid());
+
+    lines-on-grid:
+        base: polygons
+        mix: [tools-grid2, space-tile, tiling-brick, tiling-tile, shapes-circle]
+        # animated: true
+        shaders:
+            defines:
+                DASH_SCALE: 10.
+                DASH_WIDTH: 0.005 # controls dash stroke width
+                PI: 3.14159
+            uniforms:
+                u_shape_color: [0.470, 0.470, 0.470]
+            blocks:
+                global: |
+                    mat2 rotate2D (float angle) {
+                        return mat2(cos(angle),-sin(angle),
+                                    sin(angle),cos(angle));
+                    }
+
+                    vec2 rotate2D (vec2 st, float a) {
+                        return (rotate2D(a)*(st-.5))+.5;
+                    }
+
+                    float dashDF(vec2 st) {
+                        return min(
+                            cos((st.x - st.y) * PI),
+                            -cos((st.x + st.y) * PI) * 5.
+                        );
+                    }
+                color: |
+                    color.rgb = mix(
+                        color.rgb,
+                        u_shape_color,
+                        fill(
+                            DASH_WIDTH,
+                            1. - dashDF(
+                                rotate2D(tile(
+                                    getTileCoords() * DASH_SCALE, 2.),
+                                    0. // angle
+                                    // use this to animate scale and angle (set animated: true)
+                                    // getTileCoords() * DASH_SCALE *(sin(u_time)+1.)*.5, 2.),
+                                    // u_time
+                                )
                             )
                         )
                     );
