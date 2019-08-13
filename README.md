@@ -1,4 +1,4 @@
-![GRAPHIC SERIES](https://raw.githubusercontent.com/sensescape/xyz-grid-dark/master/images/grid-title.jpg)
+![GRAPHIC SERIES](https://raw.githubusercontent.com/sensescape/xyz-grid-dark/master/images/grid-title2.jpg)
 
 [https://explore.xyz.here.com](https://explore.xyz.here.com)
 
