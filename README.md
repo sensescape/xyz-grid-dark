@@ -1,10 +1,6 @@
-# simple-demo
+![GRAPHIC SERIES](https://raw.githubusercontent.com/sensescape/xyz-grid-dark/master/images/grid-title.jpg)
 
-The simplest possible [Tangram](http://github.com/tangrams/tangram) setup.
-
-Live demo: http://tangrams.github.io/simple-demo/
-
-![tangram-demo screenshot](https://cloud.githubusercontent.com/assets/459970/6629470/c007b1de-c8e4-11e4-854e-fd69f5135b3a.png)
+[https://explore.xyz.here.com](https://explore.xyz.here.com)
 
 ### To run locally:
 
@@ -17,3 +13,4 @@ If that doesn't work, try:
     python -m http.server 8000
     
 Then navigate to: [http://localhost:8000](http://localhost:8000)
+
