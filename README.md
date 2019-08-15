@@ -2,6 +2,8 @@
 
 [https://explore.xyz.here.com](https://explore.xyz.here.com)
 
+![GRAPHIC SERIES](https://raw.githubusercontent.com/sensescape/xyz-grid-dark/master/images/grid-title6.png)
+
 ### To run locally:
 
 Download this repo, then start a web server in its directory:
