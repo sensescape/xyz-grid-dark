@@ -1,6 +1,6 @@
 ![GRAPHIC SERIES](https://raw.githubusercontent.com/sensescape/xyz-grid-dark/master/images/grid-title5.png)
 
-![GRAPHIC SERIES](https://raw.githubusercontent.com/sensescape/xyz-grid-dark/master/images/grid-title6.png)
+![LINES](https://raw.githubusercontent.com/sensescape/xyz-grid-dark/master/images/grid-title6.png)
 
 ### Miami
 
@@ -11,6 +11,8 @@
 
 ### Mumbai
 [https://sensescape.github.io/xyz-grid-dark/#15/18.9873/-287.1649](https://sensescape.github.io/xyz-grid-dark/#15/18.9873/-287.1649)
+
+![GRID](https://raw.githubusercontent.com/sensescape/xyz-grid-dark/master/images/xyz-grid-dark-map1.png)
 
 [https://explore.xyz.here.com](https://explore.xyz.here.com)
 
