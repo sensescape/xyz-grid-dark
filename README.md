@@ -9,6 +9,9 @@
 ### Hong Kong
 [https://sensescape.github.io/xyz-grid-dark/#15/22.2886/-245.8313](https://sensescape.github.io/xyz-grid-dark/#15/22.2886/-245.8313)
 
+### Mumbai
+[https://sensescape.github.io/xyz-grid-dark/#15/18.9873/-287.1649](https://sensescape.github.io/xyz-grid-dark/#15/18.9873/-287.1649)
+
 [https://explore.xyz.here.com](https://explore.xyz.here.com)
 
 ### To run locally:
