@@ -36,6 +36,10 @@ global:
     roads_text_fill:              [0.800,0.800,0.800]
     roads_text_stroke:            [0.020,0.020,0.020]
 
+    roads_color:                  [0.350,0.350,0.350]
+    roads_major_color:            [0.750,0.750,0.750]
+    roads_tunnel:                 [0.300,0.300,0.300]
+
     ux_language_text_source: |
         function() {
             // if a ux_langauge has been defined use that, else if there is feature name in the fallback_ux_language then use that, else use the feature's default name in the local language
@@ -129,7 +133,7 @@ layers:
             polygons:
                 style: earth-grid
                 order: global.feature_order
-                color: [0.000,0.000,0.000]
+                color: [0.060,0.060,0.060]
 
     water:
         data: { source: mapzen, layer: water }
@@ -177,9 +181,12 @@ layers:
                 lines:
                     visible: true
                     order: global.feature_order
-                    color: [0.270,0.270,0.270]
-                    width: 1px
+                    color: [[1, [0.150,0.150,0.150]], [18, [0.300,0.300,0.300]]]
+                    width: [[8, 1px], [20, 2px]]
                     join: round
+                    outline:
+                        color: [0.100,0.100,0.100]
+                        width: [[3, 0px], [16, 2px]]
 
         water_boundaries-not-ocean:
             filter:
@@ -209,9 +216,12 @@ layers:
                 lines:
                     visible: true
                     order: global.feature_order
-                    color: [0.270,0.270,0.270]
-                    width: 1px
+                    color: [[1, [0.150,0.150,0.150]], [18, [0.300,0.300,0.300]]]
+                    width: [[8, 1px], [20, 2px]]
                     join: round
+                    outline:
+                        color: [0.100,0.100,0.100]
+                        width: [[3, 0px], [16, 2px]]
 
             swimming-pools-early:
                 filter: { kind: swimming_pool, $zoom: { max: 19 } }
@@ -224,11 +234,12 @@ layers:
                 draw:
                     lines:
                         visible: true
-                        color: [0.270,0.270,0.270]
+                        color: [[1, [0.150,0.150,0.150]], [18, [0.300,0.300,0.300]]]
                         width: 1px
 
     roads:
         data: { source: mapzen, layer: roads }
+        enabled: true
         draw:
             lines:
                 visible: true
@@ -307,39 +318,25 @@ layers:
             filter: { kind: highway, $zoom: { min: 8 } }
             draw:
                 lines:
-                    color: [[8, global.black_color], [13, global.black_color], [14, global.white_color]]
-                    width: [[8, 1px], [13, 1px], [14, 0.1px], [15, 1.5px], [17, 8px], [18, 10m]]
-                    outline:
-                        color: [[8, global.white_color], [12, global.white_color], [13, global.black_color]]
-                        width: [[8, 0px], [13, 0px], [14, 1px]]
+                    style: roads-glow
+                    color: [1.000,1.000,1.000]
+                    width: [[8, 1px], [10, 2px], [12, 4px], [14, 10px], [18, 20px]]
             link:
                 filter: { is_link: true } # on- and off-ramps, etc
                 draw:
                     lines:
-                        color: [[9, global.mid_color], [13, global.mid_color], [14, global.white_color]]
-                        width: [[9, 0px], [13, 0.75px], [14, 0.1px], [17, 4px], [18, 5m]]
-                        outline:
-                            color: [[9, global.white_color], [12, global.white_color], [13, global.mid_color], [15, global.black_color]]
-                            width: [[9, 0px], [13, 0px], [14, 0.4px], [17, 1px]]
-                early_link:
-                    filter: { $zoom: {min: 13, max: 15} }
-                    draw:
-                        lines:
-                            order: 352
+                        color: [1.000,1.000,1.000]
+                        width: [[8, 0.5px], [10, 1px], [12, 2px], [14, 5px],  [18, 10px]]
                 tunnel-link:
                     filter: {is_tunnel: true, $zoom: { min: 13 } }
                     draw:
                         lines:
-                            color: [[13, global.light_color], [14, global.ultralight_color]]
-                            outline:
-                                color: [[12, global.white_color], [13, global.light_color]]
+                            color: [0.500,0.500,0.500]
             tunnel:
                 filter: { is_tunnel: true, $zoom: { min: 13 } }
                 draw:
                     lines:
-                        color: [[13, global.light_color], [14, global.ultralight_color]]
-                        outline:
-                            color: [[12, global.white_color], [13, global.light_color]]
+                        color: global.roads_tunnel
             highway_bridge:
                 filter: { is_bridge: true }
                 draw:
@@ -347,254 +344,165 @@ layers:
                         cap: round
                         outline:
                             cap: butt
-            labels-highway-z14:
-                filter: { $zoom: { min: 14 } }
-                draw:
-                    text-blend-order:
-                        priority: 50
-                        text_source: global.ux_language_text_source
-                        visible: true
-                        font:
-                            family: Aldrich
-                            size: [[15,12px],[20,14px]]
-                            stroke: { color: global.roads_text_stroke, width: 6px }
+            # labels-highway-z14:
+            #     filter: { $zoom: { min: 14 } }
+            #     draw:
+            #         text-blend-order:
+            #             priority: 50
+            #             text_source: global.ux_language_text_source
+            #             visible: true
+            #             font:
+            #                 family: Aldrich
+            #                 size: [[15,12px],[20,14px]]
+            #                 stroke: { color: global.roads_text_stroke, width: 6px }
 
         major_road:
             filter: { kind: major_road, $zoom: { min: 8 } }
             # default style
             draw:
                 lines:
-                    color: [[8, global.black_color], [13, global.black_color], [17, global.white_color]]
-                    width: [[13, 1px], [16, 1px], [17, 3px]]
-                    outline:
-                        width: [[12, 0px], [13, 0.5px], [15, 1px]]
+                    color: global.roads_color
+                    width: 1px
             trunk_primary:
                 filter: { kind_detail: [trunk, primary] }
                 draw:
                     lines:
-                        color: [[8, global.midlight_color], [12, global.mid_color], [13, global.black_color], [14, global.white_color]]
-                        width: [[8, 0.5px], [11, 0.5px], [13, 1px], [14, 0.1px], [16, 2px], [17, 8px], [18, 10m]]
-                        outline:
-                            color: [[8, global.white_color], [12, global.white_color], [13, global.black_color]]
-                            width: [[8, 0px], [13, 0px], [14, 0.75px], [16, 1px]]
-                early:
-                    filter: { $zoom: { max: 16 } }
-                    draw:
-                        lines:
-                            order: 352
-                            outline:
-                                order: function() { return feature.sort_rank + 2; }
-                    primary:
-                        filter: { kind: [primary] }
-                        draw:
-                            lines:
-                                outline:
-                                    order: function() { return feature.sort_rank + 1; }
+                        color: global.roads_major_color
+                        width: [[8, 0.5px], [18, 2px]]
                 routes:
                     filter: { ref: true }
                     draw:
                         lines:
-                            color: [[8, global.midlight_color], [12, global.mid_color], [13, global.black_color], [14, global.white_color]]
-                            width: [[9, 0.5px], [13, 1px], [14, 0.1px], [15, 1.25px], [16, 2px], [17, 8px], [18, 10m]]
-                            outline:
-                                color: [[8, global.white_color], [12, global.white_color], [13, global.black_color]]
-                                width: [[8, 0px], [13, 0px], [14, 0.75px], [15, 1px]]
-                    early:
-                        filter: { $zoom: { max: 16 } }
-                        draw:
-                            lines:
-                                order: function() { return feature.sort_rank + 2; }
-                                outline:
-                                    order: 353
+                            style: roads-glow
+                            color: [1.000,1.000,1.000]
+                            width: [[8, 1px], [10, 2px], [12, 4px], [14, 10px], [18, 20px]]
                     tunnel:
                         filter: { is_tunnel: true, $zoom: { min: 13 } }
                         draw:
                             lines:
-                                color: [[13, global.light_color], [14, global.ultralight_color]]
-                                outline:
-                                    color: [[12, global.white_color], [13, global.light_color]]
-                    labels-trunk_primary-route-z14:
-                        filter: { $zoom: { min: 14 } }
-                        draw:
-                            text-blend-order:
-                                priority: 51
-                                visible: true
-                                text_source: global.ux_language_text_source_road_ref_and_name
-                                font:
-                                    family: Aldrich
-                                    size: [[15,12px],[20,14px]]
-                                    stroke: { color: global.roads_text_stroke, width: 4px }
-                labels-trunk-primary-z14:
-                    filter: { $zoom: 14 }
-                    draw:
-                        text-blend-order:
-                            priority: 51
-                            text_source: global.ux_language_text_source
-                            visible: true
-                            font:
-                                size: 10px
-                                stroke: { color: global.roads_text_stroke, width: 3px }
+                                color: global.roads_tunnel
+                #     labels-trunk_primary-route-z14:
+                #         filter: { $zoom: { min: 14 } }
+                #         draw:
+                #             text-blend-order:
+                #                 priority: 51
+                #                 visible: true
+                #                 text_source: global.ux_language_text_source_road_ref_and_name
+                #                 font:
+                #                     family: Aldrich
+                #                     size: [[15,12px],[20,14px]]
+                #                     stroke: { color: global.roads_text_stroke, width: 4px }
+                # labels-trunk-primary-z14:
+                #     filter: { $zoom: 14 }
+                #     draw:
+                #         text-blend-order:
+                #             priority: 51
+                #             text_source: global.ux_language_text_source
+                #             visible: true
+                #             font:
+                #                 size: 10px
+                #                 stroke: { color: global.roads_text_stroke, width: 3px }
 
-                labels-trunk-primary-z15:
-                    filter: { $zoom: { min: 15 } }
-                    draw:
-                        text-blend-order:
-                            priority: 51
-                            text_source: global.ux_language_text_source_road_ref_and_name_short
-                            visible: true
-                            font:
-                                size: [[15,13px],[18,14px]]
-                                stroke: { color: global.roads_text_stroke, width: [[15, 4px], [17, 6px]] }
+                # labels-trunk-primary-z15:
+                #     filter: { $zoom: { min: 15 } }
+                #     draw:
+                #         text-blend-order:
+                #             priority: 51
+                #             text_source: global.ux_language_text_source_road_ref_and_name_short
+                #             visible: true
+                #             font:
+                #                 size: [[15,13px],[18,14px]]
+                #                 stroke: { color: global.roads_text_stroke, width: [[15, 4px], [17, 6px]] }
             link:
                 filter: { is_link: true } # on- and off-ramps, etc
                 draw:
                     lines:
-                        color: [[10, global.mid_color], [15, global.light_color], [16, global.white_color]]
-                        width: [[10, 0.5px], [12, 0.5px], [15, 0.75px], [16, 1.75px], [17, 3px], [18, 5m]]
-                        outline:
-                            color: [[10, global.white_color], [15, global.mid_color], [16, global.black_color]]
-                            width: [[10, 0px], [15, 0px], [16, 1px]]
+                        color: global.roads_color
+                        width: [[10, 0.5px], [18, 2px]]
             tunnel:
                 filter: { is_tunnel: true, $zoom: { min: 13 } }
                 draw:
                     lines:
-                        color: [[13, global.light_color], [14, global.ultralight_color]]
-                        outline:
-                            color: [[12, global.white_color], [13, global.light_color]]
+                        color: global.roads_tunnel
+                        width: [[12, 0.5px], [18, 2px]]
             secondary:
                 filter: { kind_detail: secondary }
                 draw:
                     lines:
-                        color: [[10, global.lighter_color], [13, global.midlight_color], [15, global.dark_color], [16, global.white_color]]
-                        width: [[10, 0.5px], [12, 0.5px], [14, 1px], [15, 1px], [16, 0.1px], [17, 7.5px], [18, 9m]]
-                        outline:
-                            color: [[10, global.white_color], [14, global.white_color], [15, global.black_color]]
-                            width: [[10, 0px], [15, 0px], [16, 1px]]
-                early:
-                    filter: { $zoom: { max: 16 } }
-                    draw:
-                        lines:
-                            order: 352
-                            outline:
-                                order: 353 #function() { return feature.sort_rank + 2; }
+                        color: global.roads_major_color
+                        width: [[10, 0.5px], [18, 2px]]
                 routes:
                     filter: { ref: true, $zoom: { min: 12 } }
                     draw:
                         lines:
-                            color: [[10, global.lighter_color], [13, global.mid_color], [15, global.black_color], [16, global.white_color]]
-                            width: [[10, 0.5px], [13, 1px], [15, 1px], [16, 0.1px], [17, 7.5px], [18, 9m]]
-                            outline:
-                                color: [[10, global.white_color], [14, global.white_color], [15, global.black_color]]
-                                width: [[10, 0px], [15, 0px], [16, 1px]]
-                    early:
-                        filter: { $zoom: { max: 15 } }
-                        draw:
-                            lines:
-                                order: function() { return feature.sort_rank + 2; }
-                                outline:
-                                    order: 353
+                            color: global.roads_major_color
+                            width: [[10, 0.5px], [18, 2px]]
                     tunnel:
                         filter: {is_tunnel: true, $zoom: { min: 13 } }
                         draw:
                             lines:
-                                color: [[13, global.light_color], [15, global.light_color], [16, global.ultralight_color]]
-                                outline:
-                                    color: [[13, global.white_color], [14, global.white_color], [15, global.light_color]]
-                    labels-secondary-routes-z15-up:
-                        filter: { $zoom: { min: 15 } }
-                        draw:
-                            text-blend-order:
-                                priority: 56
-                                visible: true
-                                text_source: global.ux_language_text_source_road_ref_and_name_short
-                                font:
-                                    size: [[13,10px],[15,13px],[18,14px]]
-                                    stroke: { color: global.roads_text_stroke, width: 4px }
-                labels-secondary:
-                    filter: { $zoom: { min: 15 } }
-                    draw:
-                        text-blend-order:
-                            priority: 56
-                            visible: true
-                            text_source: global.ux_language_text_source_road_ref_and_name_short
-                            font:
-                                size: [[15,13px],[18,14px]]
-                                stroke: { color: global.roads_text_stroke, width: 4px }
+                                color: global.roads_tunnel
+                                width: [[13, 0.5px], [18, 2px]]
+                #     labels-secondary-routes-z15-up:
+                #         filter: { $zoom: { min: 15 } }
+                #         draw:
+                #             text-blend-order:
+                #                 priority: 56
+                #                 visible: true
+                #                 text_source: global.ux_language_text_source_road_ref_and_name_short
+                #                 font:
+                #                     size: [[13,10px],[15,13px],[18,14px]]
+                #                     stroke: { color: global.roads_text_stroke, width: 4px }
+                # labels-secondary:
+                #     filter: { $zoom: { min: 15 } }
+                #     draw:
+                #         text-blend-order:
+                #             priority: 56
+                #             visible: true
+                #             text_source: global.ux_language_text_source_road_ref_and_name_short
+                #             font:
+                #                 size: [[15,13px],[18,14px]]
+                #                 stroke: { color: global.roads_text_stroke, width: 4px }
             tertiary:
                 filter: { kind_detail: [tertiary, tertiary_link] }
                 draw:
                     lines:
-                        color: [[11, global.lighter_color], [15, global.dark_color], [16, global.white_color]]
-                        width: [[11, 0.5px], [15, 1px], [16, 0.1px], [17, 6px], [18, 9m]]
-                        outline:
-                            color: [[11, global.white_color], [14, global.white_color], [15, global.black_color]]
-                            width: [[11, 0px], [15, 0px], [16, 1px]]
-                early:
-                    filter: { $zoom: { max: 15 } }
-                    draw:
-                        lines:
-                            order: 352
-                            outline:
-                                order: function() { return feature.sort_rank + 3; }
+                        color: global.roads_color
+                        width: [[11, 0.5px], [18, 2px]]
                 routes:
                     filter: { ref: true, $zoom: { min: 12 } }
                     draw:
                         lines:
-                            color: [[11, global.lighter_color], [15, global.dark_color], [16, global.white_color]]
-                            width: [[11, 0.5px], [15, 1px], [16, 0.1px], [17, 6px], [18, 9m]]
-                            outline:
-                                color: [[11, global.white_color], [14, global.white_color], [15, global.black_color]]
-                                width: [[11, 0px], [15, 0px], [16, 1px]]
-                    early:
-                        filter: { $zoom: { max: 15 } }
-                        draw:
-                            lines:
-                                order: function() { return feature.sort_rank + 3; }
-                                outline:
-                                    order: 353
+                            color: global.roads_color
+                            width: [[11, 0.5px], [18, 2px]]
                     tunnel:
                         filter: { is_tunnel: true, $zoom: { min: 13 } }
                         draw:
                             lines:
-                                color: [[13, global.light_color], [15, global.light_color], [16, global.ultralight_color]]
-                                outline:
-                                    color: [[13, global.white_color], [14, global.white_color], [15, global.light_color]]
+                                color: global.roads_tunnel
+                                width: [[13, 0.5px], [18, 2px]]
                 link:
                     filter: { is_link: true } # on- and off-ramps, etc
                     draw:
                         lines:
-                            color: [[14, global.light_color], [15, global.dark_color], [16, global.white_color]]
-                            width: [[11, 0.0px], [15, 0.5px], [16, 0.1px], [18, 4.5m]]
-                            outline:
-                                color: [[11, global.white_color], [14, global.white_color], [15, global.black_color]]
-                                width: [[11, 0px], [14, 0px], [16, 0.25px], [18, 1px]]
-                labels-tertiary:
-                    filter: { $zoom: { min: 16 } }
-                    draw:
-                        text-blend-order:
-                            priority: 57
-                            visible: true
-                            text_source: global.ux_language_text_source_road_ref_and_name_short
-                            font:
-                                size: [[15,10px],[18,14px]]
-                                stroke: { color: global.roads_text_stroke, width: 5px }
+                            color: global.roads_color
+                            width: [[11, 0.0px], [18, 2px]]
+                # labels-tertiary:
+                #     filter: { $zoom: { min: 16 } }
+                #     draw:
+                #         text-blend-order:
+                #             priority: 57
+                #             visible: true
+                #             text_source: global.ux_language_text_source_road_ref_and_name_short
+                #             font:
+                #                 size: [[15,10px],[18,14px]]
+                #                 stroke: { color: global.roads_text_stroke, width: 5px }
         minor_road:
             filter: { kind: minor_road, not: { kind_detail: service }, $zoom: { min: 8 } }
             draw:
                 lines:
-                    color: [[11, global.ultralight_color], [14, global.mid_color], [16, global.white_color]]
-                    width: [[11, 0.35px], [13, 0.5px], [14, 1px], [15, 1px], [16, 0.1px], [17, 4px], [18, 9m]]
-                    outline:
-                        color: [[15, global.mid_color], [17, global.black_color]]
-                        width: [[11, 0px], [15, 0px], [16, 0.75px], [17, 1px]]
-            early:
-                filter: { $zoom: { max: 16 } }
-                draw:
-                    lines:
-                        order: 350
-                        outline:
-                            order: 351
-            # Is this junk code?
+                    color: global.roads_color
+                    width: [[11, 0.35px], [18, 2px]]
             round:
                 filter: { $zoom: { min: 17 } }
                 draw:
@@ -606,9 +514,7 @@ layers:
                 filter: {is_tunnel: true, $zoom: { min: 13 } }
                 draw:
                     lines:
-                        color: [[13, global.light_color], [15, global.light_color], [16, global.ultralight_color]]
-                        outline:
-                            color: [[13, global.white_color], [14, global.white_color], [15, global.light_color]]
+                        color: global.roads_tunnel
             minor_road_bridge:
                 filter: { is_bridge: true }
                 draw:
@@ -616,144 +522,145 @@ layers:
                         cap: round
                         outline:
                             cap: butt
-            labels-minor_road:
-                filter: { $zoom: { min: 16 } }
-                draw:
-                    text-blend-order:
-                        priority: 59
-                        visible: true
-                        text_source: name
-                        font:
-                            size: [[15,10px],[18,14px]]
-                            stroke: { color: global.roads_text_stroke, width: 4px }
-        service_road:
-            filter: { kind: minor_road, kind_detail: service, $zoom: { min: 13 } }
-            draw:
-                lines:
-                    color: [[13, global.offwhite_color], [15, global.midlight_color], [16, global.white_color]]
-                    width: [[13, 0px], [15, 0.75px], [16, 0.1px], [17, 2.5px], [18, 5m]]
-                    outline:
-                        color: [[13, global.white_color], [14, global.white_color], [15, global.mid_color], [18, global.black_color]]
-                        width: [[13, 0px], [15, 0px], [16, 0.6px], [19, 1px]]
-            labels-service_road:
-                filter: { $zoom: { min: 17 } }
-                draw:
-                    text-blend-order:
-                        priority: 60
-                        visible: true
-                        text_source: name
-                        font:
-                            size: [[15,10px], [18,14px]]
-                            stroke: { color: global.roads_text_stroke, width: 4px }
+            # labels-minor_road:
+            #     filter: { $zoom: { min: 16 } }
+            #     draw:
+            #         text-blend-order:
+            #             priority: 59
+            #             visible: true
+            #             text_source: name
+            #             font:
+            #                 size: [[15,10px],[18,14px]]
+            #                 stroke: { color: global.roads_text_stroke, width: 4px }
+        # service_road:
+        #     filter: { kind: minor_road, kind_detail: service, $zoom: { min: 13 } }
+        #     draw:
+        #         lines:
+        #             color: [[13, global.offwhite_color], [15, global.midlight_color], [16, global.white_color]]
+        #             width: [[13, 0px], [15, 0.75px], [16, 0.1px], [17, 2.5px], [18, 5m]]
+        #             outline:
+        #                 color: [[13, global.white_color], [14, global.white_color], [15, global.mid_color], [18, global.black_color]]
+        #                 width: [[13, 0px], [15, 0px], [16, 0.6px], [19, 1px]]
+        #     labels-service_road:
+        #         filter: { $zoom: { min: 17 } }
+        #         draw:
+        #             text-blend-order:
+        #                 priority: 60
+        #                 visible: true
+        #                 text_source: name
+        #                 font:
+        #                     size: [[15,10px], [18,14px]]
+        #                     stroke: { color: global.roads_text_stroke, width: 4px }
 
-        path:
-            filter:
-                all:
-                    - kind: [path, portage_way]
-                not:
-                    - kind_detail: [steps, track, pier]
-            draw:
-                lines:
-                    color: global.white_color
-                    width: [[14, 0px], [16, 0.15px], [17, 2.5px], [20, 3m]]
-            early:
-                filter:
-                    $zoom: { max: 15 }
-                draw:
-                    lines:
-                        order: 351
-                        outline:
-                            order: 350
-            pedestrian:
-                filter: { kind_detail: pedestrian }
-                draw:
-                    lines:
-                        color: global.white_color
-                        width: [[14, 0px], [16, 0.15px], [17, 2.5px], [20, 3m]]
-            footway:
-                filter: { kind_detail: footway }
-                draw:
-                    lines:
-                        color: global.white_color
-                        width: [[14, 0px], [16, 0.15px], [17, 2.5px], [20, 3m]]
-                bridge:
-                    filter: { is_bridge: true }
-                    draw:
-                        lines:
-                            cap: round
-                            outline:
-                                color: [[13, global.light_color], [15, global.mid_color]]
-                                cap: butt
-            bridge:
-                filter: { is_bridge: true }
-                draw:
-                    lines:
-                        cap: round
-                        outline:
-                            color: global.mid_color
-                            cap: butt
-            labels-path:
-                filter: { $zoom: { min: 18 } }
-                draw:
-                    text-blend-order:
-                        priority: 61
-                        visible: true
-                        text_source: name
-                        font:
-                            size: 11px
-                            stroke: { color: global.roads_text_stroke, width: 4px }
-        track:
-            filter: { kind: path, kind_detail: track }
-            draw:
-                lines:
-                    color: global.white_color
-                    width: [[13, 0px], [16, 0.15px], [17, 2.5px], [20, 4m]]
-            bridge:
-                filter: { is_bridge: true }
-                draw:
-                    lines:
-                        cap: butt
-                        color: global.white_color
-                        outline:
-                            color: [[13, global.light_color], [15, global.black_color]]
-                            cap: butt
+        # path:
+        #     filter:
+        #         all:
+        #             - kind: [path, portage_way]
+        #         not:
+        #             - kind_detail: [steps, track, pier]
+        #     draw:
+        #         lines:
+        #             color: global.white_color
+        #             width: [[14, 0px], [16, 0.15px], [17, 2.5px], [20, 3m]]
+        #     early:
+        #         filter:
+        #             $zoom: { max: 15 }
+        #         draw:
+        #             lines:
+        #                 order: 351
+        #                 outline:
+        #                     order: 350
+        #     pedestrian:
+        #         filter: { kind_detail: pedestrian }
+        #         draw:
+        #             lines:
+        #                 color: global.white_color
+        #                 width: [[14, 0px], [16, 0.15px], [17, 2.5px], [20, 3m]]
+        #     footway:
+        #         filter: { kind_detail: footway }
+        #         draw:
+        #             lines:
+        #                 color: global.white_color
+        #                 width: [[14, 0px], [16, 0.15px], [17, 2.5px], [20, 3m]]
+        #         bridge:
+        #             filter: { is_bridge: true }
+        #             draw:
+        #                 lines:
+        #                     cap: round
+        #                     outline:
+        #                         color: [[13, global.light_color], [15, global.mid_color]]
+        #                         cap: butt
+        #     bridge:
+        #         filter: { is_bridge: true }
+        #         draw:
+        #             lines:
+        #                 cap: round
+        #                 outline:
+        #                     color: global.mid_color
+        #                     cap: butt
+        #     labels-path:
+        #         filter: { $zoom: { min: 18 } }
+        #         draw:
+        #             text-blend-order:
+        #                 priority: 61
+        #                 visible: true
+        #                 text_source: name
+        #                 font:
+        #                     size: 11px
+        #                     stroke: { color: global.roads_text_stroke, width: 4px }
+        # track:
+        #     filter: { kind: path, kind_detail: track }
+        #     draw:
+        #         lines:
+        #             color: global.white_color
+        #             width: [[13, 0px], [16, 0.15px], [17, 2.5px], [20, 4m]]
+        #     bridge:
+        #         filter: { is_bridge: true }
+        #         draw:
+        #             lines:
+        #                 cap: butt
+        #                 color: global.white_color
+        #                 outline:
+        #                     color: [[13, global.light_color], [15, global.black_color]]
+        #                     cap: butt
 
-            labels-track:
-                filter: { $zoom: { min: 18 } }
-                draw:
-                    text-blend-order:
-                        priority: 61
-                        visible: true
-                        text_source: name
-                        font:
-                            size: 11px
-                            stroke: { color: global.roads_text_stroke, width: 4px }
+        #     labels-track:
+        #         filter: { $zoom: { min: 18 } }
+        #         draw:
+        #             text-blend-order:
+        #                 priority: 61
+        #                 visible: true
+        #                 text_source: name
+        #                 font:
+        #                     size: 11px
+        #                     stroke: { color: global.roads_text_stroke, width: 4px }
 
-        steps:
-            filter:
-                all:
-                    - kind: path
-                    - kind_detail: steps
-            draw:
-                lines:
-                    dash: [0.75, 0.75]
-                    dash_background_color: global.white_color
-                    order: global.feature_order
-                    color: [[15, global.light_color], [19, global.lightest_color]]
-                    width: [[15, 0.5px], [18, 3px], [19, 1.5m]]
-            labels-steps:
-                filter: { $zoom: { min: 18 } }
-                draw:
-                    text-blend-order:
-                        priority: 62
-                        visible: true
-                        text_source: name
-                        font:
-                            size: 11px
-                            stroke: { color: global.roads_text_stroke, width: 4px }
+        # steps:
+        #     filter:
+        #         all:
+        #             - kind: path
+        #             - kind_detail: steps
+        #     draw:
+        #         lines:
+        #             dash: [0.75, 0.75]
+        #             dash_background_color: global.white_color
+        #             order: global.feature_order
+        #             color: [[15, global.light_color], [19, global.lightest_color]]
+        #             width: [[15, 0.5px], [18, 3px], [19, 1.5m]]
+        #     labels-steps:
+        #         filter: { $zoom: { min: 18 } }
+        #         draw:
+        #             text-blend-order:
+        #                 priority: 62
+        #                 visible: true
+        #                 text_source: name
+        #                 font:
+        #                     size: 11px
+        #                     stroke: { color: global.roads_text_stroke, width: 4px }
 
     landuse:
         data: { source: mapzen }
+        enabled: true
         draw:
             polygons:
                 order: global.feature_order
@@ -771,12 +678,8 @@ layers:
                     - protect_class: ['2','3','5']
             draw:
                 polygons:
-                    style: green-grid
-                    color: [0.000,0.000,0.000]
-                    visible: true
-                lines:
-                    color: [0.150,0.150,0.150]
-                    width: 2px
+                    style: circles-on-grid
+                    color: [0.060,0.060,0.060]
                     visible: true
             us_national_park:
                 # yosemite national park, death valley national park, grand canyon national park
@@ -786,14 +689,9 @@ layers:
                         - protect_class: ['2','3','5']
                 draw:
                     polygons:
-                        style: green-grid
-                        color: [0.000,0.000,0.000]
+                        style: circles-on-grid
+                        color: [0.060,0.060,0.060]
                         visible: true
-                    lines:
-                        color: [0.150,0.150,0.150]
-                        width: 2px
-                        visible: true
-
 
         conservation:
             filter:
@@ -802,12 +700,8 @@ layers:
                 not: { protect_class: ['2','3','5']}
             draw:
                 polygons:
-                    style: green-grid
-                    color: [0.000,0.000,0.000]
-                    visible: true
-                lines:
-                    color: [0.300,0.300,0.300]
-                    width: 2px
+                    style: circles-on-grid
+                    color: [0.060,0.060,0.060]
                     visible: true
 
         national_forest_level_6:
@@ -819,24 +713,16 @@ layers:
                     - operator: ['United States Forest Service']
             draw:
                 polygons:
-                    style: green-grid
-                    color: [0.000,0.000,0.000]
-                    visible: true
-                lines:
-                    color: [0.250,0.250,0.250]
-                    width: 2px
+                    style: circles-on-grid
+                    color: [0.060,0.060,0.060]
                     visible: true
 
         forest-landcover:
             filter: { kind: [forest, natural_forest, wood, natural_wood, natural_park], $zoom: { min: 10 }, not: { operator: "United States Forest Service" } }
             draw:
                 polygons:
-                    style: green-grid
-                    color: [0.000,0.000,0.000]
-                    visible: true
-                lines:
-                    color: [0.250,0.250,0.250]
-                    width: 2px
+                    style: circles-on-grid
+                    color: [0.060,0.060,0.060]
                     visible: true
 
         parks-and-national-forests-not-national-park:
@@ -847,17 +733,10 @@ layers:
                 any:
                     - not: { operator: [ "United States National Park Service", "United States Forest Service" ] }
                     - not: { protect_class: ['2','3','5','6'] }
-            # default for national forests and more?
             draw:
                 polygons:
-                    # style: polygons-diagonal-grid
-                    # style: green-grid
                     style: circles-on-grid
-                    color: [0.000,0.000,0.000]
-                    visible: true
-                lines:
-                    color: [0.250,0.250,0.250]
-                    width: 2px
+                    color: [0.060,0.060,0.060]
                     visible: true
             national_park:
                 #filter: function() { return feature.name && (feature.name.indexOf('National Park') > -1); }
@@ -867,7 +746,7 @@ layers:
                         - not: [ protect_class: ['2','3','5','6'], operator: [ "United States National Park Service"] ]
                 draw:
                     polygons:
-                        style: green-grid
+                        style: circles-on-grid
                         visible: true
 
         golf_course:
@@ -875,22 +754,20 @@ layers:
                 kind: golf_course
             draw:
                 polygons:
-                    style: lines-on-grid
-                    color: [0.000,0.000,0.000]
+                    style: circles-on-grid
+                    color: [0.060,0.060,0.060]
                     visible: true
 
     buildings:
         data: { source: mapzen, layer: buildings }
+        enabled: true
         filter:
             not: { location: underground }
         draw:
             polygons:
                 visible: false
                 order: 329
-                color: [0.000,0.000,0.000]
-            lines:
-                visible: false
-                order: 329
+                color: [0.060,0.060,0.060]
 
         footprints:
             filter:
@@ -906,14 +783,24 @@ layers:
             draw:
                 polygons:
                     visible: true
-                    style: building-grid
+                    style: lines-on-grid
+
+        in_university:
+            filter:
+                landuse_kind: [university, college]
+            draw:
+                polygons:
+                    visible: true
+                    style: university-building-grid
+                    color: [0.050,0.050,0.050]
                 lines:
                     visible: true
-                    color: [0.480,0.480,0.480]
-                    width: [[12,0.5px], [14,2px]]
+                    color: [0.270,0.270,0.270]
+                    width: [[13, 1px], [16, 4px], [20, 7px]]
 
     boundaries:
         data: { source: mapzen, layer: boundaries }
+        enabled: false
         # country subdivisions (states, provinces)
         draw:
             lines:
@@ -1032,6 +919,7 @@ layers:
 
     places:
         data: { source: mapzen, layer: places }
+        enabled: true
         filter:
             name: true
         draw:
@@ -1052,7 +940,7 @@ layers:
                     buffer: 42px
                     font:
                         size: [[5,9px],[8,10px],[12,11px]]
-                        stroke: { color: [0.000,0.000,0.000], width: 6px }
+                        stroke: { color: [0.060,0.060,0.060], width: 6px }
 
             # _text_early:
             #     filter: { $zoom: { max: 11 } }
@@ -1218,7 +1106,7 @@ layers:
                         size: [[11, 9px], [12, 10px], [13, 12px], [14, 16px], [16, 24px]]
                         weight: normal
                         transform: uppercase
-                        stroke: { color: [0.020,0.020,0.020], width: [[12, 4px], [13, 6px], [15, 8px]] }
+                        stroke: { color: [0.060,0.060,0.060], width: [[12, 4px], [13, 6px], [15, 8px]] }
 
             z13-up:
                 filter:
@@ -1290,7 +1178,7 @@ styles:
                     float TileGrid(float res) {
                         vec2 st = getTileCoords() * 100. * res;
                         float pct = 0.0;
-                        float press = 0.3 + (1.0 - fract(u_map_position.z)) * 0.1;
+                        float press = 0.5 + (1.0 - fract(u_map_position.z)) * 0.1;
                         if (grid(st, 0.1, press)) { pct += 0.5; }
                         return pct;
                     }
@@ -1298,7 +1186,8 @@ styles:
                         return mix(TileGrid(1.), TileGrid(2.), fract(u_map_position.z));
                     }
                     #endif
-    tools-grid2:
+
+    tools-grid-base:
         mix: space-tile
         shaders:
             blocks:
@@ -1311,7 +1200,7 @@ styles:
                     float TileGrid(float res) {
                         vec2 st = getTileCoords() * 200. * res;
                         float pct = 0.0;
-                        float press = 0.6 + (1.0 - fract(u_map_position.z)) * 0.1;
+                        float press = 1.0 + (1.0 - fract(u_map_position.z)) * 0.1;
                         if (grid(st, 0.1, press)) { pct += 0.5; }
                         return pct;
                     }
@@ -1320,7 +1209,7 @@ styles:
                     }
                     #endif
 
-    tools-grid3:
+    tools-grid-universities:
         mix: space-tile
         shaders:
             blocks:
@@ -1331,10 +1220,10 @@ styles:
                         return (grid.x < res * press) || (grid.y < res * press);
                     }
                     float TileGrid(float res) {
-                        vec2 st = getTileCoords() * 400. * res;
+                        vec2 st = getTileCoords() * 200. * res;
                         float pct = 0.0;
-                        float press = 0.9 + (1.0 - fract(u_map_position.z)) * 0.1;
-                        if (grid(st, 0.1, press)) { pct += 0.3; }
+                        float press = 3.75 + (1.0 - fract(u_map_position.z)) * 0.1;
+                        if (grid(st, 0.1, press)) { pct += 1.0; }
                         return pct;
                     }
                     float TileGrid() {
@@ -1342,7 +1231,7 @@ styles:
                     }
                     #endif
 
-    tools-grid4:
+    tools-grid-buildings:
         mix: space-tile
         shaders:
             blocks:
@@ -1353,10 +1242,32 @@ styles:
                         return (grid.x < res * press) || (grid.y < res * press);
                     }
                     float TileGrid(float res) {
-                        vec2 st = getTileCoords() * 800. * res;
+                        vec2 st = getTileCoords() * 200. * res;
                         float pct = 0.0;
-                        float press = 0.9 + (1.0 - fract(u_map_position.z)) * 0.1;
-                        if (grid(st, 0.1, press)) { pct += 0.21; }
+                        float press = 1.5 + (1.0 - fract(u_map_position.z)) * 0.1;
+                        if (grid(st, 0.1, press)) { pct += 1.0; }
+                        return pct;
+                    }
+                    float TileGrid() {
+                        return mix(TileGrid(1.), TileGrid(2.), fract(u_map_position.z));
+                    }
+                    #endif
+
+    tools-grid-circle-on-grid:
+        mix: space-tile
+        shaders:
+            blocks:
+                global: |
+                    #ifdef TANGRAM_FRAGMENT_SHADER
+                    bool grid(vec2 st, float res, float press) {
+                        vec2 grid = fract(st * res);
+                        return (grid.x < res * press) || (grid.y < res * press);
+                    }
+                    float TileGrid(float res) {
+                        vec2 st = getTileCoords() * 200. * res;
+                        float pct = 0.0;
+                        float press = 2.0 + (1.0 - fract(u_map_position.z)) * 0.1;
+                        if (grid(st, 0.1, press)) { pct += 1.0; }
                         return pct;
                     }
                     float TileGrid() {
@@ -1366,113 +1277,50 @@ styles:
 
     earth-grid:
         base: polygons
-        mix: tools-grid2
+        mix: tools-grid-base
         shaders:
             blocks:
                 filter: |
-                    color.rgb = mix(color.rgb, vec3(0.470,0.470,0.470), TileGrid());
+                    color.rgb = mix(color.rgb, vec3(0.200,0.200,0.200), TileGrid());
 
     water-grid:
         base: polygons
-        mix: tools-grid
+        mix: tools-grid-base
         shaders:
             blocks:
                 filter: |
-                    color.rgb = mix(color.rgb, vec3(0.190,0.190,0.190), TileGrid());
+                    color.rgb = mix(color.rgb, vec3(0.200,0.200,0.200), TileGrid());
 
-    green-grid:
+    university-building-grid:
         base: polygons
-        mix: tools-grid3
+        mix: tools-grid-universities
         shaders:
             blocks:
                 filter: |
-                    color.rgb = mix(color.rgb, vec3(0.920,0.920,0.920), TileGrid());
-
-    park-grid:
-        base: polygons
-        mix: tools-grid4
-        shaders:
-            blocks:
-                filter: |
-                    color.rgb = mix(color.rgb, vec3(0.094,0.185,0.230), TileGrid());
-
-    building-grid:
-        base: polygons
-        mix: tools-grid
-        shaders:
-            blocks:
-                filter: |
-                    color.rgb = mix(color.rgb, vec3(0.500,0.500,0.500), TileGrid());
-
-    polygons-diagonal-grid:
-        doc:
-            author: 
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |  
-                Apply a diagonal grid pattern to the polygon style. To learn more about patterns check [this chapter from the Book of Shaders](https://thebookofshaders.com/09/)
-        ui:
-            shaders:
-                defines:
-                    GRID_SCALE:
-                        type: number
-                        label: Scale
-                        range: 
-                            min: 1.
-                            max: 1000.
-                            step: 1.
-                    GRID_WIDTH:
-                        type: number
-                        label: Width
-                        range: 
-                            min: 0.
-                            max: 1.
-                            step: 0.01
-                    GRID_COLOR: 
-                        type: color
-                        label: Color
-                    GRID_BACKGROUND_COLOR: 
-                        type: color
-                        label: 'Background color'
-
-        base: polygons
-        mix: [space-tile, patterns-grid]
-        shaders:
-            defines:
-                GRID_SCALE: 21.
-                GRID_WIDTH: .05
-                GRID_COLOR: color.rgb
-                GRID_BACKGROUND_COLOR: color.rgb*.85
-            blocks:
-                color: |
-                    color.rgb = mix(GRID_COLOR, 
-                                    GRID_BACKGROUND_COLOR, 
-                                    diagonalGrid(   fract(getTileCoords()*GRID_SCALE),
-                                                    GRID_WIDTH));
+                    color.rgb = mix(color.rgb, vec3(0.270,0.270,0.270), TileGrid());
 
     circles-on-grid:
         base: polygons
-        mix: [tools-grid2, space-tile, tiling-brick, tiling-tile, shapes-circle]
+        mix: [tools-grid-circle-on-grid, space-tile, tiling-brick, tiling-tile, shapes-circle]
         shaders:
             defines:
                 DOTS_SCALE: 10.
-                DOTS_SIZE: 0.75
-                STROKE: .1 # stroke width
+                DOTS_SIZE: 0.6
+                STROKE: .75 # stroke width
             uniforms:
-                u_shape_color: [0.470, 0.470, 0.470]
+                u_shape_color: [0.105, 0.105, 0.105]
+                # u_shape_color: [0.030, 0.030, 0.030]
+                # u_shape_color: [1.000,0.000,0.000]
             blocks:
                 color: |
                     color.rgb = mix(
                         color.rgb,
                         u_shape_color,
-                        stroke(
+                        fill(
                             DOTS_SIZE,
                             circleDF(
                                 // change this vec2 to control circle offset
-                                vec2(.2, .2) -
+                                vec2(.1, .2) -
                                 tile(getTileCoords() * DOTS_SCALE, 2.)
                             )
                         )
@@ -1481,15 +1329,15 @@ styles:
 
     lines-on-grid:
         base: polygons
-        mix: [tools-grid2, space-tile, tiling-brick, tiling-tile, shapes-circle]
+        mix: [tools-grid-buildings, space-tile, tiling-brick, tiling-tile, shapes-circle]
         # animated: true
         shaders:
             defines:
                 DASH_SCALE: 10.
-                DASH_WIDTH: 0.005 # controls dash stroke width
+                DASH_WIDTH: 0.75 # controls dash stroke width
                 PI: 3.14159
             uniforms:
-                u_shape_color: [0.470, 0.470, 0.470]
+                u_shape_color: [0.180, 0.180, 0.180]
             blocks:
                 global: |
                     mat2 rotate2D (float angle) {
@@ -1498,7 +1346,7 @@ styles:
                     }
 
                     vec2 rotate2D (vec2 st, float a) {
-                        return (rotate2D(a)*(st-.5))+.5;
+                        return (rotate2D(a)*(st-.3))+.45;
                     }
 
                     float dashDF(vec2 st) {
@@ -1516,7 +1364,7 @@ styles:
                             1. - dashDF(
                                 rotate2D(tile(
                                     getTileCoords() * DASH_SCALE, 2.),
-                                    0. // angle
+                                    0.78 // angle
                                     // use this to animate scale and angle (set animated: true)
                                     // getTileCoords() * DASH_SCALE *(sin(u_time)+1.)*.5, 2.),
                                     // u_time
@@ -1525,62 +1373,6 @@ styles:
                         )
                     );
                     color.rgb = mix(color.rgb, u_shape_color, TileGrid());
-
-    patterns-grid:
-        doc:
-            author: 
-                name: Patricio Gonzalez Vivo
-                twitter: patriciogv
-            version: 0.0.1
-            tangram-version: 0.0.7
-            licence: MIT
-            description: |  
-                Collection of functions to draw grids. To learn more about patterns check [this chapter from the Book of Shaders](https://thebookofshaders.com/09/)    
-            examples:
-                blueprint:
-                    url: https://tangrams.github.io/tangram-sandbox/styles/blueprint.yaml
-                    img: https://tangrams.github.io/tangram-sandbox/styles/blueprint.png
-                    lines: 75-76
-                grain:
-                    url: https://tangrams.github.io/tangram-sandbox/styles/grain.yaml
-                    img: https://tangrams.github.io/tangram-sandbox/styles/grain.png
-                    lines: 15
-        mix: [space-tile]
-        shaders:
-            blocks:
-                global: |
-                    // Draw a grid in the space a specific resolution and pressition
-                    bool grid (vec2 st, float res, float press) {
-                        vec2 grid = fract(st*res);
-                        return grid.x < res*press || grid.y < res*press;
-                    }
-                    //
-                    // Draw a grid in the space a specific resolution
-                    bool grid (vec2 st, float res) {
-                        return grid(st, res, 1.0);
-                    }
-
-                    //
-                    // Draw a grid in 45 degress with a specific width
-                    float diagonalGrid(vec2 st, float width){
-                        return step(.5,max( smoothstep(st.x-width,st.x,st.y)*(1.-smoothstep(st.x,st.x+width,st.y)),
-                                            smoothstep(st.x-width,st.x,1.0-st.y)*(1.-smoothstep(st.x,st.x+width,1.0-st.y))));
-                    }
-
-                    // Draw a grid using tile coordenates in a specific resolution
-                    float tileGrid (float res) {
-                        vec2 st = getTileCoords()*100.*res;
-                        float pct = 0.0;
-                        float press = 0.4+(1.0-fract(u_map_position.z))*0.1;
-                        if (grid(st,0.01,press)) pct += 0.5;
-                        if (grid(st,0.1,press)) pct += 0.1;
-                        return pct;
-                    }
-
-                    // Draw two grid that smoothly interpolates acording to zooms
-                    float tileGrid() { 
-                        return mix(tileGrid(1.),tileGrid(2.),fract(u_map_position.z)); 
-                    }
 
     space-tile:
         doc:
@@ -1774,3 +1566,254 @@ styles:
                             return step(threshold, value);
                         #endif
                     }
+
+    roads-glow:
+        base: lines
+        mix: [functions-zoom, lines-glow]
+        shaders:
+            defines:
+                ZOOM_START: 5.
+                ZOOM_END: 6.
+                GLOW_WIDTH: mix(1.,.45,zoom())
+                GLOW_BRIGHTNESS: zoom()*.22
+
+    lines-glow:
+        doc:
+            author: 
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            version: 0.0.1
+            tangram-version: 0.0.7
+            licence: MIT
+            description: |  
+                Add an exciting glow effect to your
+        ui:
+            shaders:
+                defines:
+                    GLOW_WIDTH:
+                        type: number
+                        label: Solid width
+                        range: 
+                            min: 0.
+                            max: 1.
+                            step: 0.01
+                    GLOW_BRIGHTNESS:
+                        type: number
+                        label: Glow Brightness
+                        range: 
+                            min: 0.
+                            max: 1.
+                            step: 0.01
+        base: lines
+        mix: [block, functions-aastep]
+        texcoords: true
+        blend: add
+        shaders:
+            defines:
+                GLOW_WIDTH: 0.4
+                GLOW_BRIGHTNESS: .25
+            blocks:
+                color: |
+                    vec4 glow_tmp_color = color;
+                    color = glow_tmp_color*(aastep(GLOW_WIDTH,1.-v_texcoord.x)*aastep(GLOW_WIDTH,v_texcoord.x));
+                    color += glow_tmp_color*(sin(v_texcoord.x*PI)*GLOW_BRIGHTNESS);
+
+    functions-zoom:
+        doc:
+            author:
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            version: 0.0.1
+            tangram-version: 0.0.7
+            licence: MIT
+            description: |
+                when you mix this block to another block you can use the functions `zoom()` or `zoomEase()`. Both will help you to interpolate any values between the zooms `ZOOM_START` and `ZOOM_END`.
+                By default `zoom()` and `zoomEase()` will return a `float `number between 0 and 1. But you can change it to interpolate any thing! Like `floats`, `vec2`, `vec3`, `vec4` and even other functions! For that you just need to change de `defines`: `ZOOM_IN`, and `ZOOM_OUT` to what ever you want to interpolate.
+                `zoom()` use the cuadratic interpolation of `smoothstep()` but you can use `zoomEase()` to specify what type of **easing interpolation** you prefere. Just change the default `linear` function for any [easing functions describe here](#functions-easing) in the `ZOOM_FNC` define. Ex: `ZOOM_FNC: quadraticInOut`
+        mix: [functions-easing]
+        shaders:
+            defines:
+                ZOOM_START: 14.
+                ZOOM_END: 20.
+                ZOOM_MAX: max(ZOOM_START, ZOOM_END)
+                ZOOM_FNC: linear
+                ZOOM_IN: 0.0
+                ZOOM_OUT: 1.0
+            blocks:
+                global: |
+                    float zoom() {
+                        return mix( ZOOM_IN,
+                                    ZOOM_OUT,
+                                    clamp( smoothstep(  ZOOM_START/ZOOM_MAX,
+                                                        ZOOM_END/ZOOM_MAX,
+                                                        max(u_map_position.z/ZOOM_MAX, 0.)), 0., 1.) );
+                    }
+                    float zoomEase() {
+                        return mix( ZOOM_IN,
+                                    ZOOM_OUT,
+                                    ZOOM_FNC( (u_map_position.z-ZOOM_START)/(ZOOM_END-ZOOM_START) ) );
+                    }
+    functions-easing:
+        doc:
+            author:
+                name: StackGL
+                url: http://stack.gl/
+            version: 0.0.1
+            tangram-version: 0.0.7
+            licence: MIT
+            description: |
+                Easing functions originally develop by Robert Penner's and transformed to GLSL by [StackGL](http://stack.gl/) in this repo: <https://github.com/stackgl/glsl-easings>
+        shaders:
+            defines:
+                PI: 3.1415926535897932384626433832795
+                HALF_PI: 1.5707963267948966192313216916398
+            blocks:
+                global: |
+                    float linear (in float t) {
+                        return t;
+                    }
+                    float exponentialIn (in float t) {
+                        return t == 0.0 ? t : pow(2.0, 10.0 * (t - 1.0));
+                    }
+                    float exponentialOut (in float t) {
+                        return t == 1.0 ? t : 1.0 - pow(2.0, -10.0 * t);
+                    }
+                    float exponentialInOut (in float t) {
+                        return t == 0.0 || t == 1.0
+                        ? t
+                        : t < 0.5
+                            ? +0.5 * pow(2.0, (20.0 * t) - 10.0)
+                            : -0.5 * pow(2.0, 10.0 - (t * 20.0)) + 1.0;
+                    }
+                    float sineIn (in float t) {
+                        return sin((t - 1.0) * HALF_PI) + 1.0;
+                    }
+                    float sineOut (in float t) {
+                        return sin(t * HALF_PI);
+                    }
+                    float sineInOut (in float t) {
+                        return -0.5 * (cos(PI * t) - 1.0);
+                    }
+                    float qinticIn (in float t) {
+                        return pow(t, 5.0);
+                    }
+                    float qinticOut (in float t) {
+                        return 1.0 - (pow(t - 1.0, 5.0));
+                    }
+                    float qinticInOut (in float t) {
+                        return t < 0.5
+                            ? +16.0 * pow(t, 5.0)
+                            : -0.5 * pow(2.0 * t - 2.0, 5.0) + 1.0;
+                    }
+                    float quarticIn (in float t) {
+                        return pow(t, 4.0);
+                    }
+                    float quarticOut (in float t) {
+                        return pow(t - 1.0, 3.0) * (1.0 - t) + 1.0;
+                    }
+                    float quarticInOut (in float t) {
+                        return t < 0.5
+                            ? +8.0 * pow(t, 4.0)
+                            : -8.0 * pow(t - 1.0, 4.0) + 1.0;
+                    }
+                    float quadraticInOut (in float t) {
+                        float p = 2.0 * t * t;
+                        return t < 0.5 ? p : -p + (4.0 * t) - 1.0;
+                    }
+                    float quadraticIn (in float t) {
+                        return t * t;
+                    }
+                    float quadraticOut (in float t) {
+                        return -t * (t - 2.0);
+                    }
+                    float cubicIn (in float t) {
+                        return t * t * t;
+                    }
+                    float cubicOut (in float t) {
+                        float f = t - 1.0;
+                        return f * f * f + 1.0;
+                    }
+                    float cubicInOut (in float t) {
+                        return t < 0.5
+                            ? 4.0 * t * t * t
+                            : 0.5 * pow(2.0 * t - 2.0, 3.0) + 1.0;
+                    }
+                    float elasticIn (in float t) {
+                        return sin(13.0 * t * HALF_PI) * pow(2.0, 10.0 * (t - 1.0));
+                    }
+                    float elasticOut (in float t) {
+                        return sin(-13.0 * (t + 1.0) * HALF_PI) * pow(2.0, -10.0 * t) + 1.0;
+                    }
+                    float elasticInOut (in float t) {
+                        return t < 0.5
+                            ? 0.5 * sin(+13.0 * HALF_PI * 2.0 * t) * pow(2.0, 10.0 * (2.0 * t - 1.0))
+                            : 0.5 * sin(-13.0 * HALF_PI * ((2.0 * t - 1.0) + 1.0)) * pow(2.0, -10.0 * (2.0 * t - 1.0)) + 1.0;
+                    }
+                    float circularIn (in float t) {
+                        return 1.0 - sqrt(1.0 - t * t);
+                    }
+                    float circularOut (in float t) {
+                        return sqrt((2.0 - t) * t);
+                    }
+                    float circularInOut (in float t) {
+                        return t < 0.5
+                            ? 0.5 * (1.0 - sqrt(1.0 - 4.0 * t * t))
+                            : 0.5 * (sqrt((3.0 - 2.0 * t) * (2.0 * t - 1.0)) + 1.0);
+                    }
+                    float bounceOut (in float t) {
+                        const float a = 4.0 / 11.0;
+                        const float b = 8.0 / 11.0;
+                        const float c = 9.0 / 10.0;
+                        const float ca = 4356.0 / 361.0;
+                        const float cb = 35442.0 / 1805.0;
+                        const float cc = 16061.0 / 1805.0;
+                        float t2 = t * t;
+                        return t < a
+                        ? 7.5625 * t2
+                        : t < b
+                            ? 9.075 * t2 - 9.9 * t + 3.4
+                            : t < c
+                                ? ca * t2 - cb * t + cc
+                                : 10.8 * t * t - 20.52 * t + 10.72;
+                    }
+                    float bounceIn (in float t) {
+                        return 1.0 - bounceOut(1.0 - t);
+                    }
+                    float bounceInOut (in float t) {
+                        return t < 0.5
+                        ? 0.5 * (1.0 - bounceOut(1.0 - t * 2.0))
+                        : 0.5 * bounceOut(t * 2.0 - 1.0) + 0.5;
+                    }
+                    float backIn (in float t) {
+                        return pow(t, 3.0) - t * sin(t * PI);
+                    }
+                    float backOut (in float t) {
+                        float f = 1.0 - t;
+                        return 1.0 - (pow(f, 3.0) - f * sin(f * PI));
+                    }
+                    float backInOut (in float t) {
+                        float f = t < 0.5
+                        ? 2.0 * t
+                        : 1.0 - (2.0 * t - 1.0);
+                        float g = pow(f, 3.0) - f * sin(f * PI);
+                        return t < 0.5
+                        ? 0.5 * g
+                        : 0.5 * (1.0 - g) + 0.5;
+                    }
+
+    block:
+        shaders:
+            defines:
+                ADD: '+'
+                SUBTRACT: '-'
+                MULTIPLY: '*'
+
+                PI: 3.1415926535897932384626433832795
+                TWO_PI: 6.2831853071795864769252867665590
+                HALF_PI: 1.5707963267948966192313216916398
+                QUATER_PI: .785398163
+
+                EPSILON: 0.0000001
+
+                deg2rad(d): (((d)*3.1415926535897932384626433832795)/180.0)
+                rad2deg(d): (((d)*180.0)/3.1415926535897932384626433832795)
