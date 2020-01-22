@@ -1266,7 +1266,7 @@ styles:
                     float TileGrid(float res) {
                         vec2 st = getTileCoords() * 200. * res;
                         float pct = 0.0;
-                        float press = 2.0 + (1.0 - fract(u_map_position.z)) * 0.1;
+                        float press = 2.5 + (1.0 - fract(u_map_position.z)) * 0.1;
                         if (grid(st, 0.1, press)) { pct += 1.0; }
                         return pct;
                     }
@@ -1308,8 +1308,8 @@ styles:
                 DOTS_SIZE: 0.6
                 STROKE: .75 # stroke width
             uniforms:
-                u_shape_color: [0.105, 0.105, 0.105]
-                # u_shape_color: [0.030, 0.030, 0.030]
+                # u_shape_color: [0.105, 0.105, 0.105]
+                u_shape_color: [0.030, 0.030, 0.030]
                 # u_shape_color: [1.000,0.000,0.000]
             blocks:
                 color: |
